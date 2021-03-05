@@ -8,10 +8,10 @@ export const authTest = (username, password) => dispatch => {
         .auth()
         .signInWithEmailAndPassword(username, password)
         .then(() => {
-            dispatch(authSuccess)
+            dispatch(authSuccess())
           })
           .catch(() => {
-            dispatch(authFail)
+            dispatch(authFail())
           });
 }
 export const authStart = () => {
@@ -22,8 +22,6 @@ export const authSuccess = () => {
     return { type: AUTH_SUCCESS }
 }
 export const authFail = () => {
-    console.log('error');
-
     return { type: AUTH_FAIL }
 }
 export const authLoginChange = (value) => {

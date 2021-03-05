@@ -1,6 +1,13 @@
 body{
     min-height: 100vh;
+    min-width: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+button{
+    cursor: pointer;
+}
+#root{
+    height: 100%;
 }

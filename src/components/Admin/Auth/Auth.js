@@ -1,9 +1,21 @@
-import React from 'react'
-import firebase from '../../../firebase'
-import { connect } from 'react-redux'
-import { authTest } from '../../../redux/actions/auth'
+import React, { useEffect } from 'react';
+import firebase from '../../../firebase';
+import { connect } from 'react-redux';
+import { authTest } from '../../../redux/actions/auth';
 import './auth.scss';
-const index = (props) => {
+import { useHistory } from 'react-router-dom'
+
+const Auth = (props) => {
+    const history = useHistory()
+
+    useEffect(() => {
+        console.log('abc');
+        if(props.auth.isLoggedIn){
+          console.log('loggedin');
+          history.push('/admin/products')
+
+        }
+      }, [props.auth.isLoggedIn])
     const handleLogin = (e) => {
         e.preventDefault()
         const username = e.target[0].value,
@@ -37,5 +49,5 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(index)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)
 

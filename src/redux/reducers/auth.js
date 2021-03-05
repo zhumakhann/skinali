@@ -1,10 +1,12 @@
 
 import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGIN_CHANGE, AUTH_PASSWORD_CHANGE } from '../actions/actionTypes'
 const initialState = {
+    user: '',
     loginValue: '',
     passwordValue: '',
     isLoading: false,
-    isLoggedIn: false,
+    // isLoggedIn: false,
+    isLoggedIn: true,
     isChecked: false,
 }
 
