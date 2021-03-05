@@ -1,12 +1,14 @@
 
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL } from '../actions/actionTypes'
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGIN_CHANGE, AUTH_PASSWORD_CHANGE } from '../actions/actionTypes'
 const initialState = {
+    loginValue: '',
+    passwordValue: '',
     isLoading: false,
     isLoggedIn: false,
     isChecked: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch(action.type){
         case AUTH_START:
             return { ...state, isLoading: true }
@@ -14,6 +16,12 @@ export const authReducer = (state = initialState, action) => {
             return {...state, isLoading: false, isLoggedIn: true, isChecked: false}
         case AUTH_FAIL: 
             return {...state, isLoading: false, isLoggedIn: false, isChecked: true}
-        
+        case AUTH_LOGIN_CHANGE:
+            return {...state, loginValue: action.value}
+        case AUTH_PASSWORD_CHANGE:
+            return {...state, passwordValue: action.value}
+        default:
+            return state
     }
 }
+export default authReducer

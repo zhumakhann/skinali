@@ -1,4 +1,5 @@
-import './App.css';
+import './normalize.css';
+import './App.scss';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./components/Admin/PrivateRoute";
 import Admin from './pages/Admin'
