@@ -33,3 +33,23 @@
         }
     }
 }
+.products__list{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.products__item{
+    flex: 0 0 25%;
+    border: 1px solid red;
+    padding: 20px;
+    margin: 10px;
+    img{
+        max-width: 100%;
+    }
+    .descr{
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

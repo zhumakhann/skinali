@@ -5,6 +5,8 @@ import {
     ADMIN_PRODUCTS_FETCH,
     LOAD_START,
     LOAD_ERROR,
+    ADMIN_PRODUCTS_DELETE_SUCCESS,
+    ADMIN_PRODUCTS_DELETE_ERROR
 } from './actionTypes'
 import firebase from '../../firebase';
 
@@ -27,6 +29,25 @@ export const addProduct =  (name, description, price, images) => async dispatch 
         adminProductsAddError()
     }
 }
+export const deleteProduct = (id) => async dispatch => {
+    await db.collection("products")
+        .doc(id)
+        .delete()
+        .then(dispatch(adminProductsDeleteSuccess()))
+        .catch(dispatch(adminProductsDeleteError()));
+    
+}
+
+export const editProduct = (id, name, description, price, images) => dispatch => {
+    console.log(id, name, description, price, images);
+    db.collection("products").doc(id)
+        .set({
+            name, description, price, images
+        })
+        .then(dispatch(adminProductsAddSuccess()))
+        .catch(dispatch(adminProductsAddError()))
+}
+
 export const loadStart = () => {
     return {type: LOAD_START}
 }
@@ -35,6 +56,17 @@ export const loadError = (error) => {
     return {type: LOAD_ERROR, error}
 }
 
+export const adminProductsDeleteSuccess = () => {
+    return{
+        type: ADMIN_PRODUCTS_DELETE_SUCCESS
+    }
+}
+
+export const adminProductsDeleteError = () => {
+    return {
+        type: ADMIN_PRODUCTS_DELETE_ERROR
+    }
+}
 
 export const adminProductsAddSuccess = () => {
     return { 

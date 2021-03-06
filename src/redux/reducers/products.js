@@ -6,7 +6,7 @@ import {
 
 const initialState = {
     products: [],
-    isLoading: false,
+    isLoading: true,
     loadError: false
 }
 
@@ -19,7 +19,7 @@ const productsReducer = (state = initialState, action) => {
                 ...state, isLoading: false, loadError: action.error
             }
         case PRODUCTS_FETCH:
-            return {...state, products: action.products}
+            return {...state, products: action.products, isLoading: false}
         default:
             return state
     }

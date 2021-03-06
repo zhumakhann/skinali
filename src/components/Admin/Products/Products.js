@@ -5,11 +5,12 @@ import { addProduct } from '../../../redux/actions/adminProducts'
 import './Products.scss'
 import { connect } from 'react-redux'
 import firebase from '../../../firebase'
+import Product from '../Product/Product'
 const db = firebase.firestore();
 const storageRef = firebase.storage().ref("images");
 
 const Products = (props) => {
-    const [active, setActive] = useState(true)
+    const [popupActive, setPopupActive] = useState(false);
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
@@ -23,21 +24,19 @@ const Products = (props) => {
         console.log(url);
         setFileUrl([...fileUrl, { url: url, title: file.name }]);
         console.log(setFileUrl);
+        // console.log(e.target.files = []);
+        // e.target.files = []
     };
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(name);
-        console.log(price);
-        console.log(description);
-        console.log(fileUrl);
         props.addProduct(name, description, price, fileUrl)
     }
     useEffect(() => {
         props.fetchProducts()
     }, [])
     return (
-        <>
-            <Popup active={active} close={() => setActive(false)}>
+        <div className="container">
+            <Popup active={popupActive} close={() => setPopupActive(false)}>
                 <form className="form" onSubmit={(e) => submitHandler(e)}>
                     <ul className="form__images">
                    { fileUrl.map((img, i) => (
@@ -67,11 +66,25 @@ const Products = (props) => {
                     </button>
                 </form>
             </Popup>
+            
             <h2 className="title">Продукты</h2>
-            <button className="buttons__item" onClick={() => setActive(true)}>
+            <button className="buttons__item" onClick={() => setPopupActive(true)}>
                 Добавить товар
             </button>
-        </>
+            <ul className="products__list">
+                {
+                    console.log(props)
+                }
+                    {
+                        props.products.isLoading? 'Loading' :
+                        props.products.products.map(product => {
+                            console.log(product);
+                            // return <Product key={product.id} name={product.name} img={product.images[0]} descr={product.description} price={product.price} />
+                            return <Product key={product.id} cls="products__item" product={product} />
+                        })
+                    }
+            </ul>
+        </div>
     )
 }
 
