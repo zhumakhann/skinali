@@ -93,7 +93,11 @@ function Product(props) {
         </>
     )
 }
-
+function mapStateToProps(state){
+    return{
+        adminProducts: state.adminProducts
+    }
+}
 function mapDispatchToProps(dispatch){
     return {
         deleteProduct: (id) => dispatch(deleteProduct(id)),
@@ -101,4 +105,4 @@ function mapDispatchToProps(dispatch){
         editProduct: (id, name, description, price, images) => dispatch(editProduct(id, name, description, price, images))
     }
 }
-export default connect(null, mapDispatchToProps)(Product)
+export default connect(mapStateToProps, mapDispatchToProps)(Product)

@@ -3,16 +3,26 @@ import {
     ADMIN_PRODUCTS_ADD_SUCCESS,
     ADMIN_PRODUCTS_ADD_ERROR,
     ADMIN_PRODUCTS_FETCH,
+    ADMIN_SUCCESS,
+    ADMIN_ERROR,
     LOAD_START,
     LOAD_ERROR,
     ADMIN_PRODUCTS_DELETE_SUCCESS,
-    ADMIN_PRODUCTS_DELETE_ERROR
+    ADMIN_PRODUCTS_DELETE_ERROR,
+    RESET
 } from './actionTypes'
 import firebase from '../../firebase';
 
 const db = firebase.firestore();
+export const reset = () => {
+    setTimeout(() => {
+        return {
+            type: RESET
+        }
+    }, 3000)
+}
 export const addProduct =  (name, description, price, images) => async dispatch => {
-    // dispatch(loadStart())
+    dispatch(() => loadStart())
     // let products;
     try{
         await db.collection("products")
@@ -22,7 +32,8 @@ export const addProduct =  (name, description, price, images) => async dispatch 
             price,
             description,
           })
-        adminProductsAddSuccess()
+        .then(() => dispatch(adminProductsAddSuccess()))
+        .then(dispatch(reset()))
     }
     catch(err){
         console.log(err);
@@ -33,8 +44,8 @@ export const deleteProduct = (id) => async dispatch => {
     await db.collection("products")
         .doc(id)
         .delete()
-        .then(dispatch(adminProductsDeleteSuccess()))
-        .catch(dispatch(adminProductsDeleteError()));
+        .then(() => dispatch(adminProductsDeleteSuccess()))
+        .catch(() => dispatch(adminProductsDeleteError()));
     
 }
 
@@ -78,3 +89,4 @@ export const adminProductsAddError = () => {
         type: ADMIN_PRODUCTS_ADD_ERROR
     }
 }
+

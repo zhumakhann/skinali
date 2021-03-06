@@ -31,9 +31,10 @@ const Products = (props) => {
         e.preventDefault();
         props.addProduct(name, description, price, fileUrl)
     }
+    console.log(props);
     useEffect(() => {
         props.fetchProducts()
-    }, [])
+    }, [props.adminProducts.added, props.adminProducts.deleted])
     return (
         <div className="container">
             <Popup active={popupActive} close={() => setPopupActive(false)}>
@@ -91,8 +92,8 @@ const Products = (props) => {
 
 function mapStateToProps(state){
     return {
-        products: state.products
-
+        products: state.products,
+        adminProducts: state.adminProducts
     }
 }
 function mapDispatchToProps(dispatch){

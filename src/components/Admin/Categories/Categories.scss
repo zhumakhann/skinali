@@ -1,0 +1,15 @@
+.categories-list{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .category{
+        flex: 0 0 25%;
+        &__description{
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}

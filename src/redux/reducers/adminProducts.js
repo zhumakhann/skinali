@@ -1,31 +1,32 @@
 import {
-    LOAD_START,
+    RESET,
     ADMIN_PRODUCTS_ADD,
     ADMIN_PRODUCTS_ADD_SUCCESS,
     ADMIN_PRODUCTS_ADD_ERROR,
+    ADMIN_PRODUCTS_DELETE_SUCCESS,
+    ADMIN_PRODUCTS_DELETE_ERROR
 } from '../actions/actionTypes'
 const initialState = {
     added: false,
     isLoading: false,
     loadError: false,
+    deleted: false,
 }
 
 const adminProductsReducer = (state = initialState, action) => {
     switch(action.type){
-        case LOAD_START:
-            return { ...state, isLoading: true }
-        case LOAD_ERROR:
-            return {
-                ...state, isLoading: false, loadError: true
+        case RESET:
+            return{
+                ...state, added: false, loadError: false, deleted: false, isLoading: false,
             }
         case ADMIN_PRODUCTS_ADD:
-            return { ...state, newProduct = { isLoading: true }}
+            return { ...state, isLoading: true }
         case ADMIN_PRODUCTS_ADD_SUCCESS:
-            return {...state, newProduct = { isLoading: false, loadError: false, added: true }}
+            return {...state, isLoading: false, loadError: false, added: true }
         case ADMIN_PRODUCTS_ADD_ERROR: 
-            return {...state, newProduct = { isLoading: false, loadError: true, }}
-        case ADMIN_PRODUCTS_FETCH:
-            return {...state, products: action.products}
+            return {...state, isLoading: false, loadError: true, }
+        case ADMIN_PRODUCTS_DELETE_SUCCESS:
+            return { ...state, deleted: true}
         default:
             return state
     }
