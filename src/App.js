@@ -6,14 +6,16 @@ import Products from './components/Admin/Products/Products'
 import Categories from './components/Admin/Categories/Categories'
 import Client from './pages/Client'
 import Auth from './components/Admin/Auth/Auth'
+import Admin from './pages/Admin'
+import NotFound from './components/NotFound/NotFound'
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/auth" component={Auth} />
-        <PrivateRoute path="/admin/products" component={Products} />
-        <PrivateRoute path="/admin/categories" component={Categories} />
-        <Route path="/" component={Client} exact/>
+        <PrivateRoute path="/admin" component={Admin} />
+        <Route path="/" component={Client}/>
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );
