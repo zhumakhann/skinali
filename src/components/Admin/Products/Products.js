@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Popup from '../../HOC/Popup'
 import { fetchProducts } from '../../../redux/actions/products'
-import { addProduct } from '../../../redux/actions/adminProducts'
+import { addProduct, resetState } from '../../../redux/actions/adminProducts'
 import './Products.scss'
 import { connect } from 'react-redux'
 import firebase from '../../../firebase'
 import Product from '../Product/Product'
+import Preloader from '../../common/Preloader'
 const db = firebase.firestore();
 const storageRef = firebase.storage().ref("images");
 
@@ -33,9 +34,21 @@ const Products = (props) => {
     }
     console.log(props);
     useEffect(() => {
-        props.fetchProducts()
+        props.fetchProducts();
+        setTimeout(resetEverything, 1000)
     }, [props.adminProducts.added, props.adminProducts.deleted])
+
+    const resetEverything = () => {
+        setPopupActive(false)
+        setName('')
+        setDescription('')
+        setPrice('')
+        setFileUrl([])
+        props.resetState()
+    }
+
     return (
+        props.products.isLoading || props.adminProducts.isLoading ? <Preloader /> :
         <div className="container">
             <Popup active={popupActive} close={() => setPopupActive(false)}>
                 <form className="form" onSubmit={(e) => submitHandler(e)}>
@@ -62,7 +75,7 @@ const Products = (props) => {
                         Цена
                         <input className="form__item-input" type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
                     </label>
-                    <button className="form__submit">
+                    <button className="form__submit" disabled={props.adminProducts.isLoading}>
                         Добавить
                     </button>
                 </form>
@@ -99,7 +112,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         fetchProducts: () => dispatch(fetchProducts()),
-        addProduct: (name, description, price, fileUrl) => dispatch(addProduct(name, description, price, fileUrl))
+        addProduct: (name, description, price, fileUrl) => dispatch(addProduct(name, description, price, fileUrl)),
+        resetState: () => dispatch(resetState()),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Products)

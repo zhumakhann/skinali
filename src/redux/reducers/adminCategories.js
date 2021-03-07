@@ -11,7 +11,7 @@ const initialState = {
     isLoading: false,
     loadError: false,
     deleted: false,
-    edited: true,
+    edited: false,
 }
 
 const adminCategoriesReducer = (state = initialState, action) => {

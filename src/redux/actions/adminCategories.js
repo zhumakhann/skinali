@@ -2,7 +2,9 @@ import {
     ADMIN_ADD,
     ADMIN_ADD_SUCCESS,
     ADMIN_ADD_ERROR,
-    RESET
+    RESET,
+    ADMIN_EDIT_SUCCESS,
+    ADMIN_EDIT_ERROR
 } from './actionTypes'
 import firebase from '../../firebase';
 
@@ -14,8 +16,8 @@ export const addCategory = (name, description) => dispatch => {
             name,
             description,
           })
-        .then(() => dispatch(adminAddSuccess()))
-        // .then(dispatch(reset()))
+        .then(() => dispatch(adminEditSuccess()))
+        .catch(() => dispatch(adminEditError()));
     }
     catch(err){
         console.log(err);
@@ -23,13 +25,15 @@ export const addCategory = (name, description) => dispatch => {
     }
 }
 
-
+export const resetState = () => dispatch => {
+    dispatch(reset())
+}
 export const deleteCategory = (id) => async dispatch => {
     await db.collection("categories")
         .doc(id)
         .delete()
-        // .then(() => dispatch(adminProductsDeleteSuccess()))
-        // .catch(() => dispatch(adminProductsDeleteError()));
+        .then(() => dispatch(adminEditSuccess()))
+        .catch(() => dispatch(adminEditError()));
     
 }
 
@@ -39,17 +43,32 @@ export const editCategory = (id, name, description) => dispatch => {
         .set({
             name, description, 
         })
-        // .then(dispatch(adminProductsAddSuccess()))
-        // .catch(dispatch(adminProductsAddError()))
+        .then(dispatch(adminEditSuccess()))
+        .catch(dispatch(adminEditError()))
 }
 
+export const reset = () => {
+    return{
+        type: RESET
+    }
+}
 
 export const adminAdd = () => {
     return {
         type: ADMIN_ADD
     }
 }
+export const adminEditSuccess = () => {
+    return{
+        type: ADMIN_EDIT_SUCCESS
+    }
+}
 
+export const adminEditError = () => {
+    return {
+        type: ADMIN_EDIT_ERROR
+    }
+}
 
 export const adminAddSuccess = (content) => {
     return {

@@ -14,13 +14,6 @@ import {
 import firebase from '../../firebase';
 
 const db = firebase.firestore();
-export const reset = () => {
-    setTimeout(() => {
-        return {
-            type: RESET
-        }
-    }, 3000)
-}
 export const addProduct =  (name, description, price, images) => async dispatch => {
     dispatch(() => loadStart())
     // let products;
@@ -57,6 +50,15 @@ export const editProduct = (id, name, description, price, images) => dispatch =>
         })
         .then(dispatch(adminProductsAddSuccess()))
         .catch(dispatch(adminProductsAddError()))
+}
+export const resetState = () => dispatch => {
+    dispatch(reset())
+}
+
+export const reset = () => {
+    return{
+        type: RESET
+    }
 }
 
 export const loadStart = () => {

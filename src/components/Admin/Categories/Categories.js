@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchCategories } from '../../../redux/actions/categories';
 import Preloader from '../../common/Preloader';
 import Popup from '../../HOC/Popup'
-import { addCategory } from '../../../redux/actions/adminCategories'
+import { addCategory, resetState } from '../../../redux/actions/adminCategories'
 import Category from '../Category/Category'
 import './Categories.scss'
 
@@ -16,8 +16,16 @@ function Categories(props) {
     useEffect(() => {
         props.fetchCategories()
         console.log(props);
-    }, [])
+        setTimeout(resetEverything, 1000)
+    }, [props.adminCategories.edited])
 
+    const resetEverything = () => {
+        setPopupActive(false);
+        setName('')
+        setDescription('')
+        props.resetState();
+    }
+    
     const onSubmitHandler = (e) => {
         e.preventDefault()
         // console.log(name, description);
@@ -72,7 +80,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         fetchCategories: () => dispatch(fetchCategories()),
-        addCategory: (name, description) => dispatch(addCategory(name, description))
+        addCategory: (name, description) => dispatch(addCategory(name, description)),
+        resetState: () => dispatch(resetState())
     }
 }
 

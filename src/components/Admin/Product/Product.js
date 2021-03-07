@@ -16,7 +16,7 @@ function Product(props) {
     const { product, cls } = props;
     const [popupDeleteActive, setPopupDeleteActive] = useState(false);
     const [popupEditActive, setPopupEditActive] = useState(false);
-    const [fileUrl, setFileUrl] = useState(product.images);
+    const [fileUrl, setFileUrl] = useState(product.images || []);
     const [name, setName] = useState(product.name)
     const [descr, setDescr] = useState(product.description)
     const [price, setPrice] = useState(product.price)
@@ -49,11 +49,10 @@ function Product(props) {
             <Popup active={popupEditActive} close={() => setPopupEditActive(false)} onSubmit={(e) => props.onChangeHandler(e)}>
                 <form className="form" onSubmit={(e) => onChangeHandler(e)}>
                     <ul className="form__images">
-                   { fileUrl.map((img, i) => (
-                        <li className="form__images-item" key={i}>
-                            <img src={img.url} alt={img.title} />
-                        </li>
-                    ))}
+                        {
+                            fileUrl.length > 1 ? console.log(fileUrl) : null
+                        }
+                  
                     </ul>
                     <label className="form__item">
                         Добавить изображение
@@ -77,7 +76,10 @@ function Product(props) {
                 </form>
             </Popup>
             <li className={cls}>
-                <img src={product.images[0].url} />
+                {
+                    product.images ? 
+                    <img src={product.images[0].url} /> : null
+                }
                 <h3 className="title">{ product.name }</h3>
                 <p className="descr">{product.description}</p>
                 <p className="price">{product.price}</p>
