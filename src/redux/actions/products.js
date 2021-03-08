@@ -3,6 +3,7 @@ import {
     LOAD_START,
     LOAD_ERROR,
     PRODUCTS_SORT,
+    PRODUCTS_CATEGORY_FILTER
 } from './actionTypes'
 
 import firebase from '../../firebase';
@@ -72,4 +73,12 @@ export const productsSort = (state, type) => dispatch => {
             type: PRODUCTS_SORT, products
         }
     )
+}
+
+export const productsCategoryFilter = (state, category) => dispatch => {
+    const products = state.filter(product => product.category === category)
+    console.log(products);
+    dispatch({
+        type: PRODUCTS_CATEGORY_FILTER, products
+    })
 }

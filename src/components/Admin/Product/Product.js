@@ -20,7 +20,7 @@ function Product(props) {
     const [name, setName] = useState(product.name)
     const [descr, setDescr] = useState(product.description)
     const [price, setPrice] = useState(product.price)
-
+    const [category, setCategory] = useState('')
 
     const onFileChange = async (e) => {
         const file = e.target.files[0];
@@ -36,8 +36,10 @@ function Product(props) {
 
     function onChangeHandler(e){
         e.preventDefault();
-        props.editProduct(product.id, name, descr, price, fileUrl)
+        console.log(category);
+        props.editProduct(product.id, name, descr, price, fileUrl, category)
     }
+    console.log(props);
     return (
         <>
             <Popup active={popupDeleteActive} close={() => setPopupDeleteActive(false)}>
@@ -65,6 +67,16 @@ function Product(props) {
                     <label className="form__item">
                         Изменить описание
                         <textarea className="form__item-input textarea" value={descr}  onChange={(e) => setDescr(e.target.value)}/>
+                    </label>
+                    <label className="form__item">
+                        Изменить категорию
+                        <select className="form__item-input" value={category} onChange={(e) => setCategory(e.target.value)}>
+                            {
+                                props.categories.map(category => (
+                                    <option value={category.name}>{ category.name }</option>
+                                ))
+                            }
+                        </select>
                     </label>
                     <label className="form__item">
                         Изменить цену
@@ -105,7 +117,7 @@ function mapDispatchToProps(dispatch){
     return {
         deleteProduct: (id) => dispatch(deleteProduct(id)),
         fetchProducts: () => dispatch(fetchProducts()),
-        editProduct: (id, name, description, price, images) => dispatch(editProduct(id, name, description, price, images))
+        editProduct: (id, name, description, price, images, category) => dispatch(editProduct(id, name, description, price, images, category))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Product)

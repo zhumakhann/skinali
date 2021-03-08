@@ -14,7 +14,7 @@ import {
 import firebase from '../../firebase';
 
 const db = firebase.firestore();
-export const addProduct =  (name, description, price, images) => async dispatch => {
+export const addProduct =  (name, description, price, images, category) => async dispatch => {
     dispatch(() => loadStart())
     // let products;
     try{
@@ -24,6 +24,7 @@ export const addProduct =  (name, description, price, images) => async dispatch 
             images,
             price,
             description,
+            category
           })
         .then(() => dispatch(adminProductsAddSuccess()))
         .then(dispatch(reset()))
@@ -42,11 +43,11 @@ export const deleteProduct = (id) => async dispatch => {
     
 }
 
-export const editProduct = (id, name, description, price, images) => dispatch => {
+export const editProduct = (id, name, description, price, images, category) => dispatch => {
     console.log(id, name, description, price, images);
     db.collection("products").doc(id)
         .set({
-            name, description, price, images
+            name, description, price, images, category
         })
         .then(dispatch(adminProductsAddSuccess()))
         .catch(dispatch(adminProductsAddError()))

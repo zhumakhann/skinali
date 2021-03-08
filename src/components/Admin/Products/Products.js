@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Popup from '../../HOC/Popup'
 import { fetchProducts } from '../../../redux/actions/products'
 import { addProduct, resetState } from '../../../redux/actions/adminProducts'
+import { fetchCategories } from '../../../redux/actions/categories'
 import './Products.scss'
 import { connect } from 'react-redux'
 import firebase from '../../../firebase'
@@ -16,7 +17,7 @@ const Products = (props) => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [fileUrl, setFileUrl] = useState([]);
-    
+    const [category, setCategory] = useState('')
     const onFileChange = async (e) => {
         const file = e.target.files[0];
         const fileRef = storageRef.child(file.name);
@@ -34,6 +35,9 @@ const Products = (props) => {
     }
     console.log(props);
     useEffect(() => {
+    }, [])
+    useEffect(() => {
+        props.fetchCategories()
         props.fetchProducts();
         setTimeout(resetEverything, 1000)
     }, [props.adminProducts.added, props.adminProducts.deleted])
@@ -48,7 +52,7 @@ const Products = (props) => {
     }
 
     return (
-        props.products.isLoading || props.adminProducts.isLoading ? <Preloader /> :
+        props.products.isLoading || props.adminProducts.isLoading || props.categories.isLoading ? <Preloader /> :
         <div className="container">
             <Popup active={popupActive} close={() => setPopupActive(false)}>
                 <form className="form" onSubmit={(e) => submitHandler(e)}>
@@ -70,6 +74,17 @@ const Products = (props) => {
                     <label className="form__item">
                         Описание
                         <textarea className="form__item-input textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    </label>
+                    <label className="form__item">
+                        Категория
+                        <select className="form__item-input" value={category} onChange={(e) => setCategory(e.target.value)}>
+                            
+                            {
+                                props.categories.categories.map(category => (
+                                    <option>{ category.name }</option>
+                                ))
+                            }
+                        </select>
                     </label>
                     <label className="form__item">
                         Цена
@@ -94,7 +109,7 @@ const Products = (props) => {
                         props.products.products.map(product => {
                             console.log(product);
                             // return <Product key={product.id} name={product.name} img={product.images[0]} descr={product.description} price={product.price} />
-                            return <Product key={product.id} cls="products__item" product={product} />
+                            return <Product key={product.id} cls="products__item" product={product} categories={props.categories.categories} />
                         })
                     }
             </ul>
@@ -106,14 +121,16 @@ const Products = (props) => {
 function mapStateToProps(state){
     return {
         products: state.products,
-        adminProducts: state.adminProducts
+        adminProducts: state.adminProducts,
+        categories: state.categories
     }
 }
 function mapDispatchToProps(dispatch){
     return{
         fetchProducts: () => dispatch(fetchProducts()),
-        addProduct: (name, description, price, fileUrl) => dispatch(addProduct(name, description, price, fileUrl)),
+        addProduct: (name, description, price, fileUrl, category) => dispatch(addProduct(name, description, price, fileUrl, category)),
         resetState: () => dispatch(resetState()),
+        fetchCategories: () => dispatch(fetchCategories())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Products)

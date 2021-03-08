@@ -1,7 +1,7 @@
 import { CART_EDIT } from './actionTypes';
 
 export const cartHandler = (state, type, product) => dispatch => {
-    const cartProduct = {...product, quantity: 1, total: product.price}
+    const cartProduct = {...product, quantity: 1, total: +product.price}
     let products = [];
     let target = state.find(item => item.name === cartProduct.name);
     const index = state.indexOf(target);
@@ -37,7 +37,7 @@ export const cartHandler = (state, type, product) => dispatch => {
             break;
     }
     const total = products.reduce((acc, item) => {
-        acc += item.total;
+        acc += Number(item.total);
 
         return acc
     }, 0)

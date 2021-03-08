@@ -42,3 +42,16 @@
     visibility: hidden;
     transition: all .3s;
 }
+
+.alert{
+    opacity: 1;
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 25px;
+    transform: translateY(-300%);
+    transition: transform .3s;
+    &.active{
+        transform: translateY(0);
+    }
+}

@@ -1,4 +1,5 @@
 import {
+    CATEGORIES_SELECT,
     CATEGORIES_FETCH,
     LOAD_START,
     LOAD_ERROR,
@@ -27,6 +28,14 @@ export const loadStart = () => {
 
 export const loadError = (error) => {
     return {type: LOAD_ERROR, error}
+}
+
+export const categorySelect = (category) => dispatch => {
+    dispatch(
+        {
+            type: CATEGORIES_SELECT, category
+        }
+    )
 }
 
 export const categoriesFetch = (categories) => {

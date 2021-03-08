@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchCategories } from '../../../redux/actions/categories'
-import { fetchProducts } from '../../../redux/actions/products'
+import { fetchProducts, productsCategoryFilter } from '../../../redux/actions/products'
+import { categorySelect } from '../../../redux/actions/categories'
 import Preloader from '../../common/Preloader'
 import Sort from '../Sort/Sort'
 import './Products.scss'
@@ -9,12 +10,15 @@ import ProductItem from '../ProductItem/ProductItem'
 import SearchForm from '../SearchForm/SearchForm'
 
 function Products(props) {
-
+    useEffect(() => {
+        props.productsCategoryFilter(props.products.products, props.categories.selectedCategory)
+    }, [props.categories.selectedCategory])
+    
     useEffect(() => {
         props.fetchCategories();
         props.fetchProducts()
     }, [])
-
+    
     return (
         <section className="products">
             <div className="container">
@@ -27,8 +31,8 @@ function Products(props) {
                             props.categories.isLoading ? 
                             <Preloader /> :
                             props.categories.categories.map( category => (
-                                <li className="products__categories-item">
-                                    <button id={category.id}>
+                                <li key={category.id} className="products__categories-item">
+                                    <button id={category.id} onClick={() => props.categorySelect(category.name)}>
                                         {category.name}
                                     </button>
                                 </li>
@@ -40,7 +44,8 @@ function Products(props) {
                         <ul className="products__list">
                             {
                                 props.products.isLoading ? <Preloader /> :
-                                props.products.products.map((product, i) => (
+                                // const products = props.products.filteredProducts || props.products.products
+                                (props.products.filteredProducts || props.products.products).map((product, i) => (
                                     <ProductItem key={i} product={product} />
                                     // <li className="card" style={{width: '18rem',}}>
                                     //     {
@@ -74,7 +79,9 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return{
         fetchCategories: () => dispatch(fetchCategories()),
-        fetchProducts: () => dispatch(fetchProducts())
+        fetchProducts: () => dispatch(fetchProducts()),
+        categorySelect: (category) => dispatch(categorySelect(category)),
+        productsCategoryFilter: (state, category) => dispatch(productsCategoryFilter(state, category))
     }
 }
 

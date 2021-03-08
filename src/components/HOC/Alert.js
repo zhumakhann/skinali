@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Alert() {
+export default function Alert(props) {
     return (
-        <div class={ props.active ? 'alert active' : 'alert' } role="alert">
+        <div className={ props.active ? 'alert active ' + props.type : 'alert'} role="alert">
             { props.children }
         </div>
     )
