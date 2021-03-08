@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { deleteProduct, editProduct } from '../../../redux/actions/adminProducts'
 import { fetchProducts } from '../../../redux/actions/products'
 import firebase from '../../../firebase'
-
+import './Product.scss'
 const db = firebase.firestore();
 const storageRef = firebase.storage().ref("images");
 
@@ -44,7 +44,7 @@ function Product(props) {
                 <p>
                     Вы действительно хотите удалить { product.name }?
                 </p>
-                <button className="btn btn-delete" onClick={() => onDeleteHandler()}>Удалить</button>
+                <button className="btn btn-danger w-100" onClick={() => onDeleteHandler()}>Удалить</button>
             </Popup>
             <Popup active={popupEditActive} close={() => setPopupEditActive(false)} onSubmit={(e) => props.onChangeHandler(e)}>
                 <form className="form" onSubmit={(e) => onChangeHandler(e)}>
@@ -70,26 +70,27 @@ function Product(props) {
                         Изменить цену
                         <input className="form__item-input" type="number" value={price} onChange={(e) => setPrice(e.target.value)}/>
                     </label>
-                    <button className="form__submit">
+                    <button className="btn btn-success form__submit w-100">
                         Сохранить
                     </button>
                 </form>
             </Popup>
-            <li className={cls}>
+            <li className="card" style={{width: '18rem',}}>
                 {
-                    product.images ? 
-                    <img src={product.images[0].url} /> : null
+                    product.images ? <img className="card-img-top" src={product.images[0].url} /> : null
                 }
-                <h3 className="title">{ product.name }</h3>
-                <p className="descr">{product.description}</p>
-                <p className="price">{product.price}</p>
-                <div>
-                    <button className="btn btn-red" onClick={() => setPopupDeleteActive(true)}>
-                        Удалить
-                    </button>
-                    <button className="btn btn-green" onClick={() => setPopupEditActive(true)}>
-                        Редактировать
-                    </button>
+                <div className="card-body">
+                    <h5 className="card-title">{ product.name }</h5>
+                    <p className="card-text">{product.description}</p>
+                    <p className="card-text">{product.price}</p>
+                    <div className="card-buttons">
+                        <button className="btn btn-danger" onClick={() => setPopupDeleteActive(true)}>
+                            Удалить
+                        </button>
+                        <button className="btn btn-primary" onClick={() => setPopupEditActive(true)}>
+                            Редактировать
+                        </button>
+                    </div>
                 </div>
             </li>
         </>

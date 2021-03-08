@@ -2,6 +2,7 @@ import {
     PRODUCTS_FETCH,
     LOAD_START,
     LOAD_ERROR,
+    PRODUCTS_SORT,
 } from './actionTypes'
 
 import firebase from '../../firebase';
@@ -41,6 +42,8 @@ export const fetchProducts = () =>
             // })
             // .catch(error => dispatch(loadError(error)));
     }}
+
+
 export const loadStart = () => {
     return {type: LOAD_START}
 }
@@ -55,4 +58,18 @@ export const productsFetch = (products) => {
     return {
         type: PRODUCTS_FETCH, products
     }
+}
+
+export const productsSort = (state, type) => dispatch => {
+    let products = []
+    if(type === 'lower'){
+        products = state.sort((a, b) => b.price - a.price)
+    }else if(type === 'higher'){
+        products = state.sort((a, b) => a.price - b.price)
+    }
+    dispatch(
+        {
+            type: PRODUCTS_SORT, products
+        }
+    )
 }

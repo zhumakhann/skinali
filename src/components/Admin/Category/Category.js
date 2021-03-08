@@ -21,7 +21,7 @@ function Category(props) {
             <Popup active={popupDeleteActive} close={() => setPopupDeleteActive(false)}>
                 Вы действительно хотите удалить {props.category.name}?
                 <br />
-                <button className="btn btn-red" onClick={() => props.deleteCategory(props.category.id)}>Удалить</button>
+                <button className="btn btn-danger w-100" onClick={() => props.deleteCategory(props.category.id)}>Удалить</button>
             </Popup>
             <Popup active={popupEditActive} close={() => setPopupEditActive(false)}>
                 <form className="form" onSubmit={(e) => onSubmitHandler(e)}>
@@ -33,25 +33,27 @@ function Category(props) {
                         Изменить описание
                         <textarea className="form__item-input textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
                     </label>
-                    <button className="form__submit">
+                    <button className="btn btn-success form__submit w-100">
                         Отправить
                     </button>
                 </form>
             </Popup>
-            <li className="category">
-                <h3 className="category__title">
-                    {props.category.name}
-                </h3>
-                <p className="category__description">
-                    {props.category.description}
-                </p>
-                <div className="category__buttons">
-                    <button className="category__buttons-item btn btn-red" onClick={() => setPopupDeleteActive(true)}>
-                        Удалить
-                    </button>
-                    <button className="category__buttons-item btn btn-green" onClick={() => setPopupEditActive(true)}>
-                        Редактировать
-                    </button>
+            <li className="category card">
+                <div class="card-body">
+                    <h3 className="category__title">
+                        {props.category.name}
+                    </h3>
+                    <p className="category__description">
+                        {props.category.description}
+                    </p>
+                    <div className="category__buttons">
+                        <button className="category__buttons-item btn btn-danger" onClick={() => setPopupDeleteActive(true)}>
+                            Удалить
+                        </button>
+                        <button className="category__buttons-item btn btn-success" onClick={() => setPopupEditActive(true)}>
+                            Редактировать
+                        </button>
+                    </div>
                 </div>
             </li>
         </>

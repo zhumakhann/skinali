@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './normalize.css';
 import './App.scss';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";

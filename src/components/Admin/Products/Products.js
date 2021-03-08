@@ -75,14 +75,14 @@ const Products = (props) => {
                         Цена
                         <input className="form__item-input" type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
                     </label>
-                    <button className="form__submit" disabled={props.adminProducts.isLoading}>
+                    <button className="btn btn-success form__submit w-100" disabled={props.adminProducts.isLoading}>
                         Добавить
                     </button>
                 </form>
             </Popup>
             
             <h2 className="title">Продукты</h2>
-            <button className="buttons__item" onClick={() => setPopupActive(true)}>
+            <button className="btn btn-secondary buttons__item" onClick={() => setPopupActive(true)}>
                 Добавить товар
             </button>
             <ul className="products__list">

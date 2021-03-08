@@ -1,7 +1,9 @@
 import {
     LOAD_START,
     LOAD_ERROR,
-    PRODUCTS_FETCH
+    PRODUCTS_FETCH,
+    PRODUCTS_SORT
+    
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -20,6 +22,8 @@ const productsReducer = (state = initialState, action) => {
             }
         case PRODUCTS_FETCH:
             return {...state, products: action.products, isLoading: false}
+        case PRODUCTS_SORT:
+            return {...state, products: action.products}
         default:
             return state
     }

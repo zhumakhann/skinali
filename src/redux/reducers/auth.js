@@ -6,7 +6,7 @@ const initialState = {
     passwordValue: '',
     isLoading: false,
     // isLoggedIn: false,
-    isLoggedIn: true,
+    isLoggedIn: false,
     isChecked: false,
 }
 

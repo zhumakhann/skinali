@@ -37,7 +37,7 @@ function Categories(props) {
           {
               props.categories.isLoading || props.adminCategories.isLoading ?
               <Preloader /> :
-              <>
+              <section  className="categories">
                 <Popup active={popupActive} close={() => setPopupActive(false)}>
                     <form className="form" onSubmit={(e) => onSubmitHandler(e)}>
                         <label className="form__item">
@@ -48,13 +48,13 @@ function Categories(props) {
                             Описание
                             <textarea className="form__item-input textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </label>
-                        <button className="form__submit">
+                        <button className="btn btn-success form__submit w-100">
                             Отправить
                         </button>
                     </form>
                 </Popup>
                 <h2 className="title">Категории</h2>
-                <button className="btn" onClick={() => setPopupActive(true)}>
+                <button className="btn btn-secondary" onClick={() => setPopupActive(true)}>
                     Добавить Категорию
                 </button>
                 <ul className="categories-list">
@@ -64,7 +64,7 @@ function Categories(props) {
                         ))
                     }
                 </ul>
-              </>
+              </section>
           }  
         </>
     )
