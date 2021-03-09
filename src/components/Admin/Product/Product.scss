@@ -1,0 +1,17 @@
+.card{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-img-top{
+    min-height: 150px;
+}
+.card-body{
+    flex: 0 0 auto;
+}
+.card-buttons{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}

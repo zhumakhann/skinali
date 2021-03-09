@@ -1,0 +1,15 @@
+.auth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .form{
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        &__item, &__submit{
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            font-size: 22px;
+        }
+    }
+}

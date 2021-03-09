@@ -1,0 +1,17 @@
+.products__categories{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+}
+.products__categories-item{
+    margin-bottom: 10px;
+    &.active button{
+        background-color: red;
+    }
+    button{
+        border: none;
+        padding: 5px 20px;
+        font-size: 20px;
+    }
+}
