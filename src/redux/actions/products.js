@@ -76,7 +76,12 @@ export const productsSort = (state, type) => dispatch => {
 }
 
 export const productsCategoryFilter = (state, category) => dispatch => {
-    const products = state.filter(product => product.category === category)
+    let products = []
+    if(category === 'al1al1'){
+        products = [...state]
+    }else{
+        products = state.filter(product => product.category === category)
+    }
     console.log(products);
     dispatch({
         type: PRODUCTS_CATEGORY_FILTER, products

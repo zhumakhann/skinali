@@ -51,6 +51,7 @@
     top: 25px;
     transform: translateY(-300%);
     transition: transform .3s;
+    z-index: 15;
     &.active{
         transform: translateY(0);
     }

@@ -9,6 +9,8 @@ import './Products.scss'
 import ProductItem from '../ProductItem/ProductItem'
 import SearchForm from '../SearchForm/SearchForm'
 
+
+
 function Products(props) {
     useEffect(() => {
         props.productsCategoryFilter(props.products.products, props.categories.selectedCategory)
@@ -19,6 +21,17 @@ function Products(props) {
         props.fetchProducts()
     }, [])
     
+    const categoryClickHandler = (e, name) =>{
+        const parent = e.target.closest('.products__categories-item');
+        const parents = document.querySelectorAll('.products__categories-item');
+        parents.forEach(category => {
+            category.classList.remove('active')
+        })
+        parent.classList.add('active')
+        console.log(parent, parents);
+        props.categorySelect(name)
+    }
+
     return (
         <section className="products">
             <div className="container">
@@ -30,13 +43,20 @@ function Products(props) {
                         {
                             props.categories.isLoading ? 
                             <Preloader /> :
-                            props.categories.categories.map( category => (
-                                <li key={category.id} className="products__categories-item">
-                                    <button id={category.id} onClick={() => props.categorySelect(category.name)}>
-                                        {category.name}
+                            <>
+                                <li className="products__categories-item">
+                                    <button onClick={(e) => categoryClickHandler(e, 'al1al1')}>
+                                        Все
                                     </button>
                                 </li>
-                            ))
+                                {props.categories.categories.map( category => (
+                                    <li key={category.id} className="products__categories-item">
+                                        <button id={category.id} onClick={(e) => categoryClickHandler(e, category.name)}>
+                                            {category.name}
+                                        </button>
+                                    </li>
+                                ))}
+                            </>
                         }
                         </nav>
                     </aside>
@@ -45,7 +65,7 @@ function Products(props) {
                             {
                                 props.products.isLoading ? <Preloader /> :
                                 // const products = props.products.filteredProducts || props.products.products
-                                (props.products.filteredProducts || props.products.products).map((product, i) => (
+                                (props.products.filteredProducts.length >= 1 ? props.products.filteredProducts : props.products.products).map((product, i) => (
                                     <ProductItem key={i} product={product} />
                                     // <li className="card" style={{width: '18rem',}}>
                                     //     {

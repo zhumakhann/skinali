@@ -22,10 +22,11 @@ const products = [
 ]
 
 function Sort(props) {
+    const products = props.products.filteredProducts.length >= 1 ? props.products.filteredProducts : props.products.products
     const onChangeHandler = (e) => {
         console.log(props.products);
         console.log(e.target.value);
-        props.productsSort(props.products.products, e.target.value)
+        props.productsSort(products, e.target.value)
     }
     return (
         <div className="sort">
