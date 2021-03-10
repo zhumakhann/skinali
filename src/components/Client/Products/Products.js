@@ -28,7 +28,6 @@ function Products(props) {
             category.classList.remove('active')
         })
         parent.classList.add('active')
-        console.log(parent, parents);
         props.categorySelect(name)
     }
 
