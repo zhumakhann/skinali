@@ -5,8 +5,8 @@ const initialState = {
     loginValue: '',
     passwordValue: '',
     isLoading: false,
-    // isLoggedIn: false,
-    isLoggedIn: true,
+    isLoggedIn: false,
+    // isLoggedIn: true,
     isChecked: false,
 }
 
