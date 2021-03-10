@@ -12,11 +12,14 @@ import {
     RESET
 } from './actionTypes'
 import firebase from '../../firebase';
-
+const storageRef = firebase.storage().ref("images");
 const db = firebase.firestore();
-export const addProduct =  (name, description, price, images, category) => async dispatch => {
+
+export const addProduct =  (name, description, price, images, category = '') => async dispatch => {
     dispatch(() => loadStart())
     // let products;
+    console.log('start');
+    console.log(images);
     try{
         await db.collection("products")
           .add({
@@ -34,17 +37,44 @@ export const addProduct =  (name, description, price, images, category) => async
         adminProductsAddError()
     }
 }
-export const deleteProduct = (id) => async dispatch => {
+
+export const deleteProductImages = async (arr, res) => {
+    let images = arr.map(img => img.title)
+    await Promise.all(images)
+    .then(arr => {
+        return arr.map( img => {
+            // let deleteRef = storageRef.child(img);
+            return storageRef.child(img);
+            // console.log(deleteRef);
+            // deleteRef.delete()
+            // .then(() => res = true)
+            // .catch(() => console.log('something is wrong'))
+        })
+
+    })
+    .then(res => {
+        res.map(async img => {
+            console.log(img);
+            if(img){
+                await img.delete()
+            }
+        })
+    })
+}
+
+export const deleteProduct = (id, images) => async dispatch => {
+    // let success = false;
+    await deleteProductImages(images);
     await db.collection("products")
         .doc(id)
         .delete()
         .then(() => dispatch(adminProductsDeleteSuccess()))
         .catch(() => dispatch(adminProductsDeleteError()));
-    
 }
 
+
+
 export const editProduct = (id, name, description, price, images, category) => dispatch => {
-    console.log(id, name, description, price, images);
     db.collection("products").doc(id)
         .set({
             name, description, price, images, category

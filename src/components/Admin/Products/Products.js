@@ -23,17 +23,15 @@ const Products = (props) => {
         const fileRef = storageRef.child(file.name);
         await fileRef.put(file);
         const url = await fileRef.getDownloadURL();
-        console.log(url);
         setFileUrl([...fileUrl, { url: url, title: file.name }]);
-        console.log(setFileUrl);
         // console.log(e.target.files = []);
         // e.target.files = []
     };
     const submitHandler = (e) => {
+        console.log('abc');
         e.preventDefault();
-        props.addProduct(name, description, price, fileUrl)
+        props.addProduct(name, description, price, fileUrl, category)
     }
-    console.log(props);
     useEffect(() => {
     }, [])
     useEffect(() => {
@@ -101,13 +99,9 @@ const Products = (props) => {
                 Добавить товар
             </button>
             <ul className="products__list">
-                {
-                    console.log(props)
-                }
                     {
                         props.products.isLoading? 'Loading' :
                         props.products.products.map(product => {
-                            console.log(product);
                             // return <Product key={product.id} name={product.name} img={product.images[0]} descr={product.description} price={product.price} />
                             return <Product key={product.id} cls="products__item" product={product} categories={props.categories.categories} />
                         })

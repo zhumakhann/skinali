@@ -10,7 +10,7 @@ const storageRef = firebase.storage().ref("images");
 
 function Product(props) {
     const onDeleteHandler = async () => {
-        await props.deleteProduct(product.id);
+        await props.deleteProduct(product.id, product.images);
         setPopupDeleteActive(false)
     }
     const { product, cls } = props;
@@ -27,19 +27,15 @@ function Product(props) {
         const fileRef = storageRef.child(file.name);
         await fileRef.put(file);
         const url = await fileRef.getDownloadURL();
-        console.log(url);
         setFileUrl([...fileUrl, { url: url, title: file.name }]);
-        console.log(setFileUrl);
         // console.log(e.target.files = []);
         // e.target.files = []
     };
 
     function onChangeHandler(e){
         e.preventDefault();
-        console.log(category);
         props.editProduct(product.id, name, descr, price, fileUrl, category)
     }
-    console.log(props);
     return (
         <>
             <Popup active={popupDeleteActive} close={() => setPopupDeleteActive(false)}>
@@ -52,7 +48,7 @@ function Product(props) {
                 <form className="form" onSubmit={(e) => onChangeHandler(e)}>
                     <ul className="form__images">
                         {
-                            fileUrl.length > 1 ? console.log(fileUrl) : null
+                            fileUrl.length >= 1 ? fileUrl.map((img, i) => (<img key={i} src={img.url} alt={img.title} />)) : null
                         }
                   
                     </ul>
@@ -89,7 +85,7 @@ function Product(props) {
             </Popup>
             <li className="card" style={{width: '18rem',}}>
                 {
-                    product.images ? <img className="card-img-top" src={product.images[0].url} /> : null
+                    product.images.length >= 1 ? <img className="card-img-top" src={product.images[0].url} /> : null
                 }
                 <div className="card-body">
                     <h5 className="card-title">{ product.name }</h5>
@@ -115,7 +111,7 @@ function mapStateToProps(state){
 }
 function mapDispatchToProps(dispatch){
     return {
-        deleteProduct: (id) => dispatch(deleteProduct(id)),
+        deleteProduct: (id, images) => dispatch(deleteProduct(id, images)),
         fetchProducts: () => dispatch(fetchProducts()),
         editProduct: (id, name, description, price, images, category) => dispatch(editProduct(id, name, description, price, images, category))
     }
